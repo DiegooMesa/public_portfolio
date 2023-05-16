@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/styles.css">
+    <script src="https://kit.fontawesome.com/f2174f7aeb.js" crossorigin="anonymous"></script>
+    <link rel="shortcut icon" href="../images/favicon.ico" type="image/x-icon"> 
+    <title>Diego Mesa</title>
+</head>
+<body>
+    <div class="hidden_navbar">
+        <a class="link" href="../index.html">Home</a>
+        <a class="link" href="../about.html">About</a>
+        <a class="link" href="../portfolio.html">Portfolio</a>
+        <a class="link" href="../articles.html">Articles</a>
+        <a class="link" href="../contact.html">Contact</a>
+    </div>
+   
+    <div id="left">
+        <a href="./index.html"><h3 class="col_titulo">Diego Mesa</h3></a>
+        <a class="link" href="../index.html">Home</a>
+        <a class="link" href="../about.html">About</a>
+        <a class="link" href="../portfolio.html">Portfolio</a>
+        <a class="link" href="../articles.html">Articles</a>
+        <a class="link" href="../contact.html">Contact</a>
+
+        <div class="icons">
+            <a href="https://www.goodreads.com/user/show/74479651-diego-mesa"><i class="fa-brands fa-goodreads icon" style="color: #000000;"></i></a>
+            <a href="https://www.linkedin.com/in/diego-mesa-marrero/"><i class="fa-brands fa-linkedin icon" style="color: #000000;"></i></a>
+            <a href="https://github.com/DiegooMesa"><i class="fa-brands fa-square-github icon" style="color: #000000;"></i></a>
+            <a href="https://www.youtube.com/@diegomesa3978/videos"><i class="fa-brands fa-square-youtube icon" style="color: #000000;"></i></a>
+            <a href="https://medium.com/@diegomesamarrero"><i class="fa-brands fa-medium icon" style="color: #000000;"></i></a>
+            <p class="copyright">Copyright Diego Mesa</p>
+            <p class="copyright">&copy All rights reserved</p>
+        </div>
+    </div>
+
+    <div id="right" style="height: 3000px;"class="column">
+        <a href="../portfolio.html"><h4>Go back</h4></a>
+
+        <h2>BiciMad project for IronHack</h2>
+        <p>2022</p>
+        <a href="https://github.com/DiegooMesa/BiciMad-Project"><p>GitHub link for the project (only for the courageous!).</p></a>
+        <p>This one is interesting.</p>
+        <p>Back in January of 2022 I was starting the IronHack&rsquo;s bootcamp. This was my first contact with Python and data&hellip; pretty exciting.&nbsp;</p>
+        <p>The idea for the first project was quite simple in concept, but quite challenging in practice. It consisted of a program that would return the closest &lsquo;BiciMad&rsquo; station (like the OV-fiets here in The Netherlands) to a given consulate/embassy within the city of Madrid. It was simple in concept, because you could pretty much compare the whole database and get the results, but challenging because getting those results would take forever. And I really mean it, we are talking about minutes of processing by the computer. Can you imagine looking on Google Maps for the nearest place and having to wait minutes before you get an answer? Not cool.&nbsp;</p>
+        <p><br></p>
+        <h3>How I solved the problem</h3>
+        <p>Luckily, I came up with (what I consider to be) a really interesting solution by that time.&nbsp;</p>
+        <p>The main issue with that basic algorithm was that most computing entailed a pointless calculation that compared the distance to every single BiciMad station in the city, which was aggravated by the fact that calculations were based on coordinate data (extra computing). And then returned the one with the shortest distance to the given consulate/embassy.</p>
+        <p>What if before executing said calculations the program could get rid of those that were absurdly far, or maybe just &lsquo;far&rsquo;?&nbsp;</p>
+        <p>My solution consisted basically in slicing the dataframe. Given a certain &lsquo;threshold&rsquo; (as I like to call it) in meters, the program would then calculate the coordinates around the consulate/embassy and then chop all of those data rows that were outside the range. Let me show you:&nbsp;</p>
+        <br><br>
+        <img class="imagen" src="../images/projects/bicimad/Untitled design(1).png">
+        <br><br>
+        <p>This is a simplified representation of how the problem looked like. In the center of the image we have the Russian Embassy. Around the embassy we can see (yellow signs) &lsquo;all&rsquo; of the possible BiciMad stations. Of course, in the actual data frame there&apos;s many more than these, around 270.&nbsp;</span></p>
+        <p>As I said, the idea was to get rid of those that were obviously not going to be the closest station, like the ones in the corners. That way it would not be necessary to calculate the distance to the embassy, greatly reducing the computing time. As I said, the solution consisted of: firstly, deciding what the threshold should be to disregard the ones that fell outside of it. Second, calculating the coordinates of said boundaries. That is to say, top and bottom latitude, eastern and western longitude. Utterly defining an enclosed square-shaped area around the embassy (boundaries not alined in this illustration I made):&nbsp;</span></p>
+        <p><br></p>
+        <img class="imagen" src="../images/projects/bicimad/Untitled design(2).png">
+        <br><br>
+        <p>Anything that fell outside this area would be disregarded before any calculations related to distance between the embassy was performed. This proved to be a great way to narrow the database and save a lot of computing time. Instead of calculating distances for 270 stations, it would only do, say, for 9. Reducing the amount of work, in this case, by 96,6%. In fact, my code could calculate the closest BiciMad station to every single consulate and embassy in Madrid in tens of seconds. The feeling when I got the thing to work was one of the most defining experiences of accomplishment I&rsquo;ve ever had. And it was great to see how much people applauded this solution in class. I felt great that day.</span></p>
+        <p>An example of how it worked:&nbsp;</span></p>
+        <br><br>
+        <img class="imagen" style="width: 70%; margin-left: 10%;" src="../images/projects/bicimad/2.jpg">
+        <br><br>
+        <p>The program used Python&rsquo;s argparse library to take some parameters. Like -c for consulate and -e for embassy. And then, of course, the country that it represented.&nbsp;</span></p>
+        <p>The way I achieved the prediction for the country name was with the FuzzyWuzzy library. The rest was simply executing the code. In here we can see that it works correctly:&nbsp;</span></p>
+        <p>The difference in distance is due to the fact that the program calculates a straight line between origin and destination.&nbsp;</span></p>
+        <p>
+        <h3>The ugly part</span></h3>
+        <p>As I said, this was my very first big project with Python. Which meant that I had no idea of what &lsquo;clean readable code&rsquo; meant. It is an absolute mess. A complete nightmare of a code. It takes courage to look through the code I made for that project, so if you decide to look at it, I can&rsquo;t guarantee you&apos;ll come back being the same person that clicked on the link. Although today I see it as proof of how much I&rsquo;ve improved over time.&nbsp;</span></p>
+    
+        <a href="../portfolio.html"><h4>Go back</h4></a>
+    </div>
+
+        
+</body>
+</html>

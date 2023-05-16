@@ -21,8 +21,18 @@ a:visited {
     color:black;
 }
 
+a:hover {
+    font-style: italic;
+}
+
 i{
     margin-left: 5px;
+}
+
+.imagen{
+  margin-left: 20%;
+  width: 60%;
+  height: auto;
 }
 
 .link:hover{
